@@ -15,7 +15,12 @@ return new class extends Migration
     {
         Schema::create('customer_relations', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("customer_id");
+            $table->unsignedBigInteger("customer_group_id");
             $table->timestamps();
+
+            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('customer_group_id')->references('id')->on('customer_groups');
         });
     }
 
