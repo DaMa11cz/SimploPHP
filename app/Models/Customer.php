@@ -9,8 +9,8 @@ class Customer extends Model
 {
     use HasFactory;
 
+    //returning with customerGroups
     protected $with = ['customergroups'];
-
 
     public function customergroups()
     {

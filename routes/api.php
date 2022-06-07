@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerRelationController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,8 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 */
 
 
-
+//customer
 Route::post('/customer/new', [CustomerController::class, 'store']);
-Route::get('/customer/{id}', [CustomerController::class, 'show']); //dodělat vyžádání
+Route::get('/customer/{id}', [CustomerController::class, 'show']);
 
+//Creating Relations customer-customerGroups
 Route::post('/customerRelation/new', [CustomerRelationController::class, 'store']);

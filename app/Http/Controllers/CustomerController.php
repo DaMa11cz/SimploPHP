@@ -15,7 +15,6 @@ class CustomerController extends Controller
      */
     public function index()
     {
-
     }
 
     /**
@@ -38,26 +37,31 @@ class CustomerController extends Controller
     {
         //validation
         $validated = $request->validate([
-            'first_name' => 'required|string',
-            'last_name' => 'required|string',
-            'email' => 'required|email|string',
-            'phone_number'=>'required|string',
+            'first_name' => 'required|string|max:20',
+            'last_name' => 'required|string|max:20',
+            'email' => 'required|email',
+            'phone_number' => 'required|size:12|regex:/(420)[0-9]{9}/' //Only for CZ
 
         ]);
 
+        //starting transaction and data assignment
         DB::beginTransaction();
-        //Creating customer and saving with transaction
         $customer = new Customer;
         $customer->first_name = $validated["first_name"];
         $customer->last_name = $validated["last_name"];
         $customer->email = $validated["email"];
         $customer->phone_number = $validated["phone_number"];
 
-        if (!$customer->save()) {
-            DB::rollBack();
-            return "Failed adding new customer";
+        //handling errors
+        try {
+            if (!$customer->save()) {
+                DB::rollBack();
+                return "Failed adding new customer";
+            }
+        } catch (\Exception $e) {
+            return ['error' => $e->getMessage()];
         }
-
+        //commiting to database
         DB::commit();
         return ('Succesfully new customer added');
     }

@@ -36,25 +36,30 @@ class CustomerRelationController extends Controller
      */
     public function store(Request $request)
     {
+        //validation
         $validated = $request->validate([
             'customer_id' => 'required',
             'customer_group_id' => 'required',
         ]);
 
-       DB::beginTransaction();
-       $customerRelation = new CustomerRelation;
-       $customerRelation->customer_id = $validated['customer_id'];
-       $customerRelation->customer_group_id = $validated['customer_group_id'];
-       try{
-        if(!$customerRelation->save()){
-            DB::rollBack();
+        //starting transaction and data assignment
+        DB::beginTransaction();
+        $customerRelation = new CustomerRelation;
+        $customerRelation->customer_id = $validated['customer_id'];
+        $customerRelation->customer_group_id = $validated['customer_group_id'];
+
+        //handling errors (Duplicity/Unique)
+        try {
+            if (!$customerRelation->save()) {
+                DB::rollBack();
             }
-       }
-       catch(\Exception $e){
+        } catch (\Exception $e) {
             return ['error' => $e->getMessage()];
-            }
-       DB::commit();
-       return ('Succesfully new Relation added');
+        }
+
+        //commiting to database
+        DB::commit();
+        return ('Succesfully new Relation added');
     }
 
     /**
