@@ -10,11 +10,12 @@ class Customer extends Model
 {
     use HasFactory;
 
-    //protected $with = ['customergroups'];
-    //protected $fillable = ['first_name'];
+    protected $casts = ['customer_groups_id' => 'array'];
+    protected $with = ['customergroups'];
+    protected $fillable = ['customer_groups_id'];
 
     public function customergroups()
     {
-        return $this->hasMany(CustomerGroup::class, "customer_groups_id");
+        return $this->hasMany(CustomerGroup::class,'id','customer_groups_id');
     }
 }

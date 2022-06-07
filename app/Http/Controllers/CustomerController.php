@@ -61,7 +61,7 @@ class CustomerController extends Controller
         }
 
         DB::commit();
-        return redirect()->back()->with('success', 'Succesfully new customer added');
+        return ('Succesfully new customer added');
     }
 
     /**
