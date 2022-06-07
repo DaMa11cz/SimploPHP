@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class CustomerGroup extends Model
 {
     use HasFactory;
+
+
+
+    public function customers()
+    {
+        return $this->hasMany(CustomerController::class);
+    }
 }
