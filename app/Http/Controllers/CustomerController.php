@@ -38,7 +38,6 @@ class CustomerController extends Controller
     {
         //validation
         $validated = $request->validate([
-            'customer_groups_id'=>'nullable',
             'first_name' => 'required|string',
             'last_name' => 'required|string',
             'email' => 'required|email|string',
@@ -49,7 +48,6 @@ class CustomerController extends Controller
         DB::beginTransaction();
         //Creating customer and saving with transaction
         $customer = new Customer;
-        $customer->customer_groups_id = $validated["customer_groups_id"];
         $customer->first_name = $validated["first_name"];
         $customer->last_name = $validated["last_name"];
         $customer->email = $validated["email"];

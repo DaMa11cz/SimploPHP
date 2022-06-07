@@ -14,13 +14,18 @@ return new class extends Migration
     public function up()
     {
         Schema::create('customer_relations', function (Blueprint $table) {
+            //CreatingTable
             $table->id();
             $table->unsignedBigInteger("customer_id");
             $table->unsignedBigInteger("customer_group_id");
             $table->timestamps();
 
+            //Relations
             $table->foreign('customer_id')->references('id')->on('customers');
             $table->foreign('customer_group_id')->references('id')->on('customer_groups');
+
+            //making data unique in pair
+            $table->unique(array('customer_id', 'customer_group_id'));
         });
     }
 

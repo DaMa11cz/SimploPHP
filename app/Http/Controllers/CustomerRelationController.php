@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CustomerRelation;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CustomerRelationController extends Controller
 {
@@ -35,7 +36,25 @@ class CustomerRelationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'customer_id' => 'required',
+            'customer_group_id' => 'required',
+        ]);
+
+       DB::beginTransaction();
+       $customerRelation = new CustomerRelation;
+       $customerRelation->customer_id = $validated['customer_id'];
+       $customerRelation->customer_group_id = $validated['customer_group_id'];
+       try{
+        if(!$customerRelation->save()){
+            DB::rollBack();
+            }
+       }
+       catch(\Exception $e){
+            return ['error' => $e->getMessage()];
+            }
+       DB::commit();
+       return ('Succesfully new Relation added');
     }
 
     /**

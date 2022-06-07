@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerRelationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,11 +14,14 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-*/
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+*/
 
-Route::post('/customer/new', [CustomerController::class,'store']);
-Route::get('/customer/{id}',[CustomerController::class,'show']);
+
+
+Route::post('/customer/new', [CustomerController::class, 'store']);
+Route::get('/customer/{id}', [CustomerController::class, 'show']); //dodělat vyžádání
+
+Route::post('/customerRelation/new', [CustomerRelationController::class, 'store']);
